@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width,user-scalable=no">
+	<title>Document</title>
+	<link rel="stylesheet" href="css/style.css">
+	<script src="bower_components/zepto/zepto.js"></script>
+</head>
+<body>
+	<div>
+		<button class="pause">pause</button>
+		<button class="go">go</button>
+		<button class="continue">continue</button>
+		<p class="score"></p>
+		<span class="fz"></span>
+	</div>
+	<div class="screen">
+		<div class="start-view"></div>
+		<div class="content"></div>
+	</div>
+	<script src="script/game.js"></script>
+	<script>
+		// w 360 h640 c2340
+		var cH = 2340;
+		var w = document.documentElement.clientHeight;
+		window.onload = window.onresize = function(){
+			// document.documentElement.fontSize = w/36 + 'px'
+			document.documentElement.style.fontSize = 10 + 'px';
+			$('.content').height(cH)
+			var g = new Game();
+			console.log(g.contentHeight);
+			g.init();
+			$('.go').on('click', function() {
+				g.start()
+			});
+			$('.pause').on('click', function() {
+				g.pause()
+			});
+			$('.continue').on('click', function() {
+				g.continue()
+			});
+		}
+	</script>
+</body>
+</html>
