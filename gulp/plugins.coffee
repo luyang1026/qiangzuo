@@ -5,5 +5,6 @@ $ = require('gulp-load-plugins')
 			'browser-sync'
 			'gulp'
 			'gulp-*'
+			'run-sequence'
 		]
 Object.assign(exports,$);

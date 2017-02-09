@@ -4,16 +4,12 @@
 
   $ = require('./plugins');
 
-  $.gulp.task('copy', function() {
-    return $.gulp.src('src/index.html').pipe($.gulp.dest('.tmp/serve'));
-  });
-
-  $.gulp.task('inject', ['clean'], function() {
+  $.gulp.task('inject', ['clean', 'coffee'], function() {
     var appScript, bowerScript;
     bowerScript = $.gulp.src($.mainBowerFiles(), {
       read: false
     });
-    appScript = $.gulp.src('src/**/*.js', {
+    appScript = $.gulp.src(['src/**/*.js', '!src/dev/**/*.js'], {
       read: false
     });
     return $.gulp.src('src/index.html').pipe($.inject(bowerScript, {

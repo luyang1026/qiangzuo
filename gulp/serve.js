@@ -6,16 +6,19 @@
 
   bs = $.browserSync.create();
 
-  $.gulp.task('serve', function() {
+  $.gulp.task('serve', ['watch'], function() {
     return bs.init({
       server: {
-        baseDir: ['.tmp/serve'],
+        baseDir: ['.tmp/serve', 'src'],
         routes: {
-          '/bower_components': 'bower_components',
-          '/app': 'src/app'
+          '/bower_components': 'bower_components'
         }
       }
     });
+  });
+
+  $.gulp.task('reload', function() {
+    bs.reload();
   });
 
 }).call(this);
