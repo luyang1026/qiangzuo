@@ -4,19 +4,36 @@
 
   $ = require('./plugins');
 
-  $.gulp.task('inject', ['clean', 'coffee'], function() {
-    var appScript, bowerScript;
+  $.gulp.task('inject', function() {
+    var appHtml, appScript, appStyle, bowerScript;
     bowerScript = $.gulp.src($.mainBowerFiles(), {
       read: false
     });
     appScript = $.gulp.src(['src/**/*.js', '!src/dev/**/*.js'], {
       read: false
     });
-    return $.gulp.src('src/index.html').pipe($.inject(bowerScript, {
+    appStyle = $.gulp.src(['src/**/*.css', '!src/dev/**/*.css'], {
+      read: false
+    });
+    appHtml = $.gulp.src(['src/app/**/*.html', '!src/dev/**/*.html']);
+    return $.gulp.src('src/index.html').pipe($.plumber()).pipe($.inject(bowerScript, {
       name: 'bower'
     })).pipe($.inject(appScript, {
       ignorePath: 'src'
+    })).pipe($.inject(appStyle, {
+      ignorePath: 'src'
+    })).pipe($.inject(appHtml, {
+      starttag: '<!-- inject:{{path}} -->',
+      transform: function(filePath, file) {
+        console.log(filePath);
+        return file.contents.toString('utf8');
+      },
+      relative: true
     })).pipe($.gulp.dest('.tmp/serve/'));
+  });
+
+  $.gulp.task('injection', function(done) {
+    return $.runSequence('clean', ['coffee', 'less'], 'inject', done);
   });
 
 }).call(this);

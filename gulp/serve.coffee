@@ -11,3 +11,6 @@ $.gulp.task 'serve',['watch'],()->
 $.gulp.task 'reload',()->
 	bs.reload()
 	return
+$.gulp.task 'reload:css',['less'],()->
+	$.gulp.src 'src/all.css'
+		.pipe bs.reload {stream:true}

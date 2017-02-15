@@ -21,4 +21,10 @@
     bs.reload();
   });
 
+  $.gulp.task('reload:css', ['less'], function() {
+    return $.gulp.src('src/all.css').pipe(bs.reload({
+      stream: true
+    }));
+  });
+
 }).call(this);

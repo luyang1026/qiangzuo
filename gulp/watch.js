@@ -4,9 +4,15 @@
 
   $ = require('./plugins');
 
-  $.gulp.task('watch', ['inject'], function() {
-    return $.gulp.watch('src/app/**/*.coffee', function() {
+  $.gulp.task('watch', ['injection'], function() {
+    $.gulp.watch('src/app/**/*.coffee', function() {
       return $.runSequence('coffee', 'reload');
+    });
+    $.gulp.watch('src/**/*.less', function() {
+      return $.runSequence('reload:css');
+    });
+    return $.gulp.watch('src/**/*.html', function() {
+      return $.runSequence('inject', 'reload');
     });
   });
 
