@@ -10,24 +10,27 @@ $.fn.extend
 $ '.start-view .beginning'
 	.animationCss 'bounceInUp'
 
+countDownTimer = null
 $ '.start-view .btn-start'#click start button
 	.click ()->
 		$ '.start-view .beginning'
 			.animationCss 'bounceOutUp',()->
 				$(this).hide()
-				countDown()
-				timer = setInterval countDown,1000
+				countDown()#start count-down
+				countDownTimer = setInterval countDown,1000
 		return
 #count-down
 countDownNumber = 3
-timer
 numbers = $ '.start-view .count-down .number'
 countDown = ()->
 	numbers.hide()
 	countDownNumber--;
 	console.log  countDownNumber
+	if countDownNumber<0
+		clearInterval countDownTimer
+		$ '.start-view'
+			.hide()
+		return
 	numbers
 		.eq countDownNumber
 		.show()
-	if countDownNumber<=0
-		clearInterval timer

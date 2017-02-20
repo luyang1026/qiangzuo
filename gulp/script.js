@@ -5,7 +5,7 @@
   $ = require('./plugins');
 
   $.gulp.task('coffee', function() {
-    return $.gulp.src('src/app/**/*.coffee').pipe($.plumber()).pipe($.coffee()).pipe($.gulp.dest('src/app'));
+    return $.gulp.src('src/app/**/*.coffee').pipe($.plumber()).pipe($.sourcemaps.init()).pipe($.coffee()).pipe($.sourcemaps.write()).pipe($.gulp.dest('src/app'));
   });
 
 }).call(this);
