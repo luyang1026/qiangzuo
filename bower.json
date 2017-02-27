@@ -15,9 +15,8 @@
     "tests"
   ],
   "dependencies": {
-    "jquery": "^3.1.1",
-    "vue": "^2.1.8",
     "zepto.js": "^1.1.6",
-    "animate.css": "animation.css#^3.5.2"
+    "animate.css": "animation.css#^3.5.2",
+    "jquery": "^3.1.1"
   }
 }

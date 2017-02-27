@@ -1,5 +1,4 @@
-$.fn.extend 
-	animationCss:(animationName,fn)->
+$.fn.animationCss=(animationName,fn)->
 		animationEnd = 'webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend'
 		this.addClass "animated #{animationName}"
 			.one animationEnd,()->
@@ -25,11 +24,11 @@ numbers = $ '.start-view .count-down .number'
 countDown = ()->
 	numbers.hide()
 	countDownNumber--;
-	console.log  countDownNumber
 	if countDownNumber<0
 		clearInterval countDownTimer
 		$ '.start-view'
 			.hide()
+		move_start()
 		return
 	numbers
 		.eq countDownNumber

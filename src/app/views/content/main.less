@@ -6,9 +6,55 @@
 	text-shadow:@w 0 0 @c,-@w 0 0 @c,0 @w 0 @c,0 -@w 0 @c;
 }
 @p2r:72rem;
+@cHeight:4677/@p2r;
 body{
+	font-family: fz;
+	overflow: hidden;
+}
+.content{
 	background-image: url(app/img/bg.jpg);
 	background-repeat: no-repeat;
 	background-size: 100% auto;
-	font-family: fz;
+	animation-fill-mode: both;
+}
+
+@keyframes mstart{
+	from{
+		transform: translate3d(0,0,0)
+	}
+	to{
+		transform: translate3d(0,-@cHeight/5,0);
+	}
+}
+
+@keyframes mgoing{
+	from{
+		transform: translate3d(0,0,0);
+	}
+	to{
+		transform: translate3d(0,-@cHeight*4/5,0);
+	}
+}
+@keyframes mrunning{
+	from{
+		transform: translate3d(0,0,0);
+	}
+	to{
+		transform: translate3d(0,-@cHeight,0);
+	}
+}
+
+.start{
+	animation:2s mstart forwards ease-in;
+}
+
+.go{
+	animation:8s mgoing forwards linear;
+}
+
+.run{
+	animation:10s mrunning infinite linear;
+}
+.infinite{
+	animation-iteration-count: infinite;
 }
