@@ -12,10 +12,16 @@ body{
 	overflow: hidden;
 }
 .content{
-	background-image: url(app/img/bg.jpg);
-	background-repeat: no-repeat;
-	background-size: 100% auto;
+	&>div{
+		background-image: url(app/img/bg.jpg);
+		background-repeat: no-repeat;
+		background-size: 100% auto;
+	}
 	animation-fill-mode: both;
+	position: absolute;
+	width: 100%;
+	bottom: 0;
+	left: 0;
 }
 
 @keyframes mstart{

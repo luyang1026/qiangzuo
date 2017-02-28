@@ -1,26 +1,22 @@
 deviceWidth = document.documentElement.clientWidth
 document.documentElement.style.fontSize = "#{deviceWidth/10}px"
+
 global = window
-animationEnd = 'webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend'
-content = $('.content')
-cHeight = 4577
-wHeight = $(window).height()
-content.height(cHeight)
-s = ['start','go','run']
+C = $('.content')
+pHeight = 4577/72# picture height
+wHeight = $(window).height()# screen height
+$ '.content div'
+	.height "#{pHeight}rem"
 
-
-##
-global.move_start = ()->
-	$('.content').addClass 'start'
-	i = 1
-	$('.content').one animationEnd,()->
-		console.log s[i]
-		switch s[i]
-			when 'go'
-				$(this).addClass 'go'
-			when 'run'
-				$(this).addClass 'run'
-		i++
-		return
+global.mStart = ()->
+	C.animate 
+		bottom: "#{-pHeight*1/2}rem"
+	,5500,'easeInCubic',()->
+		mGoing()
 	return
-# move_start()
+mGoing = ()->
+	C.animate
+		bottom:"#{-pHeight*2+wHeight/(deviceWidth/10)}rem"
+	,7000,'linear',()->
+		C.css 'bottom',0
+		mGoing()

@@ -28,7 +28,7 @@ countDown = ()->
 		clearInterval countDownTimer
 		$ '.start-view'
 			.hide()
-		move_start()
+		mStart()
 		return
 	numbers
 		.eq countDownNumber
