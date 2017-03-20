@@ -1,21 +1,97 @@
+$.noConflict()
+window.jq = jQuery
 deviceWidth = document.documentElement.clientWidth
 document.documentElement.style.fontSize = "#{deviceWidth/10}px"
 
 global = window
-C = $('.content')
+C = jq('.content')
 pHeight = 4540/72# picture height
-wHeight = $(window).height()# screen height
+wHeight = jq(window).height()# screen height
 changePoint = "#{-pHeight-wHeight/(deviceWidth/10)}rem";
 seatR = 18
 seatC = 2
-# 往p2上放座位
-$('<div></div>').css({
-	top:s.x/72
-	left:s.y/72	
-}).appendTo('.content .pic2')
-for s in row for row in seatData
+peopleCount = 11
+score = 0
+# put seats
+putSeats = (c,r)->
+	seat = seatData[c][r]
+	console.log seat.occupied
+	people = jq '<span></span>'
+		.addClass ()->
+			addedClass = 'people'
+			addedClass+=' occupied' if seat.occupied
+	jq '<div></div>'
+		.addClass ()->
+			addedClass = 'seat'
+			addedClass+=' yellow' if seat.yellow
+			if c then addedClass+=' right' else addedClass+=' left'
+			addedClass
+		.css
+			left:"#{seat.x/72}rem"
+			top:"#{seat.y/72}rem"
+			width:"#{201/72}rem"
+			height:"#{178/72}rem"
+		.append people
+		.appendTo '.content .pic2'
+putPeopleAndBar = ()->
+	jq('.content .people')
+		.each (index)->
+			jq this
+				.css
+					backgroundImage:"url(app/img/#{(index%peopleCount)+1}.png)"
+					width:"#{224/72}rem"
+					height:"#{145/72}rem"
+					top:"#{16/72}rem"
+					right:"#{11/72}rem"
+	for column,c in barData
+		for row,r in column
+			bar = barData[c][r]
+			jq '<i></i>'
+				.addClass ()->
+					addedClass = 'bar'
+					if !c then addedClass+= ' left' else addedClass+=' right'
+					if !(r%2) then addedClass+= ' top' else addedClass+=' bottom'
+					addedClass
+				.css
+					width:"#{214/72}rem"
+					height:"#{43/72}rem"
+					top:"#{bar.y/72}rem"
+					left:"#{bar.x/72}rem"
+				.appendTo '.content .pic2'
+bindEvent = ()->
+	$ '.content .seat'
+		.tap ()->
+			$ '.score'
+				.remove()
+			$ '<p></p>'
+				.addClass 'score animated zoomIn'
+				.text ++score
+				.appendTo 'body'
+rollYSeatPeople = ()->
+	num = 5
+	people = 22
+	while num
+		c = u.ran 0,seatC
+		r = u.ran 0,seatR
+		if !seatData[c][r].yellow
+			seatData[c][r].yellow = true
+			num--
+	while people
+		c = u.ran 0,seatC
+		r = u.ran 0,seatR
+		if !seatData[c][r].occupied
+			seatData[c][r].occupied = true
+			people--
+paint = ()->
+	rollYSeatPeople()
+	for column,c in seatData
+		for row,r in column
+			putSeats c,r
+	putPeopleAndBar()
+	bindEvent()
 
-$ '.content div'
+paint()
+jq '.content>div'
 	.height "#{pHeight}rem"
 
 global.mStart = ()->

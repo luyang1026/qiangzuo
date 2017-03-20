@@ -11,6 +11,18 @@ body{
 	font-family: fz;
 	overflow: hidden;
 }
+.score{
+	margin-top: 40/@p2r;
+	text-align: center;
+	letter-spacing: 10/@p2r;
+	width: 100%;
+	font-weight: bold;
+	font-size: 82/@p2r;
+	color: #fff;
+	position: absolute;
+	.text-outline(#514242,8/@p2r);
+	animation-duration: .2s;
+}
 .content{
 	&>div{
 		background-image: url(app/img/bg.jpg);
@@ -19,6 +31,44 @@ body{
 	}
 	.pic1,.pic2{
 		position: relative;
+		.bar{
+			position: absolute;
+			background-size: 100% 100%;
+			background-repeat: no-repeat;
+			background-image: url(app/img/bar.png);
+			&.left.top{
+				transform:rotate3d(0,1,0,180deg);
+			}
+			&.left.bottom{
+				transform:rotateZ(180deg);
+			}
+			&.right.top{
+			}
+			&.right.bottom{
+				transform:rotate3d(1,0,0,180deg);
+			}
+		}
+		.seat{
+			position: absolute;
+			background-size: 100% 100%;
+			background-repeat: no-repeat;
+			&.left{
+				transform: rotate(180deg);
+			}
+			&.blue{
+				background-image: url(app/img/b_seat.png);
+			}
+			&.yellow{
+				background-image: url(app/img/y_seat.png);
+			}
+			.people{
+				width: 100%;
+				height: 100%;
+				position: absolute;
+				background-repeat: no-repeat;
+				background-size: 100% auto;
+			}
+		}
 	}
 	animation-fill-mode: both;
 	position: absolute;

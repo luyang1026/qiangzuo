@@ -1,32 +1,32 @@
-$.fn.animationCss=(animationName,fn)->
+jq.fn.animationCss=(animationName,fn)->
 		animationEnd = 'webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend'
 		this.addClass "animated #{animationName}"
 			.one animationEnd,()->
-				$(this).removeClass "animated #{animationName}"
-				fn&&fn.call $ this
+				jq(this).removeClass "animated #{animationName}"
+				fn&&fn.call jq this
 				return
 # beginning
-$ '.start-view .beginning'
+jq '.start-view .beginning'
 	.animationCss 'bounceInUp'
 
 countDownTimer = null
-$ '.start-view .btn-start'#click start button
+jq '.start-view .btn-start'#click start button
 	.click ()->
-		$ '.start-view .beginning'
+		jq '.start-view .beginning'
 			.animationCss 'bounceOutUp',()->
-				$(this).hide()
+				jq(this).hide()
 				countDown()#start count-down
 				countDownTimer = setInterval countDown,1000
 		return
 #count-down
 countDownNumber = 3
-numbers = $ '.start-view .count-down .number'
+numbers = jq '.start-view .count-down .number'
 countDown = ()->
 	numbers.hide()
 	countDownNumber--;
 	if countDownNumber<0
 		clearInterval countDownTimer
-		$ '.start-view'
+		jq '.start-view'
 			.hide()
 		mStart()
 		return
