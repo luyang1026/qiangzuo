@@ -1,3 +1,5 @@
+$.noConflict()
+window.jq = jQuery
 jq.fn.animationCss=(animationName,fn)->
 		animationEnd = 'webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend'
 		this.addClass "animated #{animationName}"

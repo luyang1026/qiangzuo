@@ -1,5 +1,3 @@
-$.noConflict()
-window.jq = jQuery
 deviceWidth = document.documentElement.clientWidth
 document.documentElement.style.fontSize = "#{deviceWidth/10}px"
 
@@ -15,7 +13,6 @@ score = 0
 # put seats
 putSeats = (c,r)->
 	seat = seatData[c][r]
-	console.log seat.occupied
 	people = jq '<span></span>'
 		.addClass ()->
 			addedClass = 'people'
@@ -60,13 +57,18 @@ putPeopleAndBar = ()->
 				.appendTo '.content .pic2'
 bindEvent = ()->
 	$ '.content .seat'
-		.tap ()->
+		.on 'tap',()->
+			console.log 'seat'
 			$ '.score'
 				.remove()
 			$ '<p></p>'
 				.addClass 'score animated zoomIn'
 				.text ++score
 				.appendTo 'body'
+	$ '.content .seat .people'
+		.on 'tap',(ev)->
+			closeView()
+			ev.stopPropagation()
 rollYSeatPeople = ()->
 	num = 5
 	people = 22
@@ -82,7 +84,15 @@ rollYSeatPeople = ()->
 		if !seatData[c][r].occupied
 			seatData[c][r].occupied = true
 			people--
-paint = ()->
+clear = ()->
+	$ '.pic2'
+		.empty()
+	for column,c in seatData
+		for row,r in column
+			delete seatData[c][r].yellow
+			delete seatData[c][r].occupied
+window.paint = ()->
+	clear()
 	rollYSeatPeople()
 	for column,c in seatData
 		for row,r in column

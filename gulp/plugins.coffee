@@ -6,5 +6,6 @@ $ = require('gulp-load-plugins')
 			'gulp'
 			'gulp-*'
 			'run-sequence'
+			'stream-series'
 		]
 Object.assign(exports,$);

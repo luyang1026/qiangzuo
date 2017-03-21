@@ -5,11 +5,14 @@
   $ = require('./plugins');
 
   $.gulp.task('inject', function() {
-    var appHtml, appScript, appStyle, bowerScript;
+    var appHtml, appScript, appStyle, bowerScript, startScript;
     bowerScript = $.gulp.src($.mainBowerFiles(), {
       read: false
     });
-    appScript = $.gulp.src(['src/**/*.js', '!src/dev/**/*.js'], {
+    appScript = $.gulp.src(['src/**/*.js', '!src/dev/**/*.js', '!src/app/views/start/start.js'], {
+      read: false
+    });
+    startScript = $.gulp.src(['src/app/views/start/start.js'], {
       read: false
     });
     appStyle = $.gulp.src(['src/**/*.css', '!src/dev/**/*.css'], {
@@ -18,7 +21,7 @@
     appHtml = $.gulp.src(['src/app/**/*.html', '!src/dev/**/*.html']);
     return $.gulp.src('src/index.html').pipe($.plumber()).pipe($.inject(bowerScript, {
       name: 'bower'
-    })).pipe($.inject(appScript, {
+    })).pipe($.inject($.streamSeries(startScript, appScript), {
       ignorePath: 'src'
     })).pipe($.inject(appStyle, {
       ignorePath: 'src'
