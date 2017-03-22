@@ -1,5 +1,14 @@
 $.noConflict()
+global = window
 window.jq = jQuery
+# Game = ()->
+pHeight = 4540/72# picture height
+wHeight = jq(window).height()# screen height
+global.deviceWidth = document.documentElement.clientWidth
+document.documentElement.style.fontSize = "#{deviceWidth/10}px"
+jq '.content>div'
+	.height "#{pHeight}rem"
+
 jq.fn.animationCss=(animationName,fn)->
 		animationEnd = 'webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend'
 		this.addClass "animated #{animationName}"
@@ -8,6 +17,8 @@ jq.fn.animationCss=(animationName,fn)->
 				fn&&fn.call jq this
 				return
 # beginning
+jq '.backdrop'
+	.show()
 jq '.start-view .beginning'
 	.animationCss 'bounceInUp'
 
@@ -19,7 +30,6 @@ jq '.start-view .btn-start'#click start button
 				jq(this).hide()
 				countDown()#start count-down
 				countDownTimer = setInterval countDown,1000
-		return
 #count-down
 countDownNumber = 3
 numbers = jq '.start-view .count-down .number'
@@ -30,8 +40,7 @@ countDown = ()->
 		clearInterval countDownTimer
 		jq '.start-view'
 			.hide()
-		mStart()
-		return
+		# mStart()
 	numbers
 		.eq countDownNumber
 		.show()

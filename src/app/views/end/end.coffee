@@ -3,19 +3,18 @@ window.closeView = ()->
 	replay = $ '.end-view .replay-btn'
 	share = $ '.end-view .share-btn'
 	$ '.end-view'
-		.show ()->
-			$ '.end-view .ending'
-				.addClass 'zoomIn animated'
+		.addClass 'zoomIn animated'
+	$ '.end-view'
+		.show()
+	$ '.backdrop'
+		.show()
 	replay
 		.on 'tap',()->
-			$ '.end-view .ending'
-				.removeClass 'zoomIn animated'
-			$ '.end-view .ending'
-				.addClass 'zoomOut animated'
 			$ '.backdrop'
-				.hide()
+				.slideUp(200)
 			$ '.end-view'
 				.hide()
-			console.log 'omg'
+			$ '.end-view'
+				.removeClass 'zoomOut zoomIn animated'
 			paint()
 	return

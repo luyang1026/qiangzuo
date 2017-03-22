@@ -6,8 +6,8 @@ C = jq('.content')
 pHeight = 4540/72# picture height
 wHeight = jq(window).height()# screen height
 changePoint = "#{-pHeight-wHeight/(deviceWidth/10)}rem";
-seatR = 18
-seatC = 2
+seatR = seatData[0].length
+seatC = seatData.length
 peopleCount = 11
 score = 0
 # put seats
@@ -66,7 +66,7 @@ bindEvent = ()->
 				.text ++score
 				.appendTo 'body'
 	$ '.content .seat .people'
-		.on 'tap',(ev)->
+		.one 'tap',(ev)->
 			closeView()
 			ev.stopPropagation()
 rollYSeatPeople = ()->
@@ -91,7 +91,7 @@ clear = ()->
 		for row,r in column
 			delete seatData[c][r].yellow
 			delete seatData[c][r].occupied
-window.paint = ()->
+global.paint = ()->
 	clear()
 	rollYSeatPeople()
 	for column,c in seatData
