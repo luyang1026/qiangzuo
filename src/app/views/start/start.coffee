@@ -1,14 +1,8 @@
 $.noConflict()
 global = window
 window.jq = jQuery
-# Game = ()->
-pHeight = 4540/72# picture height
-wHeight = jq(window).height()# screen height
 global.deviceWidth = document.documentElement.clientWidth
 document.documentElement.style.fontSize = "#{deviceWidth/10}px"
-jq '.content>div'
-	.height "#{pHeight}rem"
-
 jq.fn.animationCss=(animationName,fn)->
 		animationEnd = 'webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend'
 		this.addClass "animated #{animationName}"
@@ -16,31 +10,55 @@ jq.fn.animationCss=(animationName,fn)->
 				jq(this).removeClass "animated #{animationName}"
 				fn&&fn.call jq this
 				return
-# beginning
-jq '.backdrop'
-	.show()
-jq '.start-view .beginning'
-	.animationCss 'bounceInUp'
 
-countDownTimer = null
-jq '.start-view .btn-start'#click start button
-	.click ()->
-		jq '.start-view .beginning'
-			.animationCss 'bounceOutUp',()->
-				jq(this).hide()
-				countDown()#start count-down
-				countDownTimer = setInterval countDown,1000
-#count-down
-countDownNumber = 3
-numbers = jq '.start-view .count-down .number'
-countDown = ()->
-	numbers.hide()
-	countDownNumber--;
-	if countDownNumber<0
-		clearInterval countDownTimer
-		jq '.start-view'
-			.hide()
-		# mStart()
-	numbers
-		.eq countDownNumber
+class Game
+	constructor:()->
+		@pHeight = 4540/72# picture height
+		@wHeight = jq(window).height()# screen height
+		@startView = jq '.start-view'
+		@beginning = jq '.start-view .beginning'
+		@backdrop = jq '.backdrop'
+		@btnStart = $ '.start-view .btn-start'
+		@countDownNumbers = jq '.start-view .count-down .number'
+		@number = 3
+		@timer = null
+	init:()->
+		@getDomReady()
+	getDomReady:()->
+		jq '.content>div'# set div's height 
+			.height "#{@pHeight}rem"
+
+Game.prototype.homePage = ()->
+	@startView.show()
+	@backdrop.show()
+	@beginning.animationCss 'bounceInUp'
+	@homePageBindEvent()
+
+Game.prototype.homePageBindEvent = ()->
+	_this = @
+	@btnStart.on 'tap',()->
+		_this.beginning.animationCss 'bounceOutUp',()->
+				jq(this).hide _this.countDown()#start count-down
+Game.prototype.countDown = ()->
+	_this = @
+	@countDownNumbers.hide()
+	@startView.show()
+	@backdrop.show()
+	@number--
+	@timer = setTimeout ()->
+		_this.countDown.call(_this)
+	,1000
+	if @number<0
+		@number = 3
+		@startView.hide()
+		@backdrop.hide()
+		clearTimeout @timer
+		return
+	@countDownNumbers
+		.eq @number
 		.show()
+	return
+
+global.game = new Game()
+game.init()
+game.homePage()

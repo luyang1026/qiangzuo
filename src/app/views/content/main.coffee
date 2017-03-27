@@ -29,7 +29,7 @@ putSeats = (c,r)->
 			width:"#{201/72}rem"
 			height:"#{178/72}rem"
 		.append people
-		.appendTo '.content .pic2'
+		.appendTo '.content .pic2,.content .pic1'
 putPeopleAndBar = ()->
 	jq('.content .people')
 		.each (index)->
@@ -54,7 +54,7 @@ putPeopleAndBar = ()->
 					height:"#{43/72}rem"
 					top:"#{bar.y/72}rem"
 					left:"#{bar.x/72}rem"
-				.appendTo '.content .pic2'
+				.appendTo '.content .pic2,.content .pic1'
 bindEvent = ()->
 	$ '.content .seat'
 		.on 'tap',()->
