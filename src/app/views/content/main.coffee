@@ -11,7 +11,7 @@ seatC = seatData.length
 peopleCount = 11
 score = 0
 # put seats
-putSeats = (c,r)->
+Game.prototype.putSeats = (c,r)->
 	seat = seatData[c][r]
 	people = jq '<span></span>'
 		.addClass ()->
@@ -30,7 +30,7 @@ putSeats = (c,r)->
 			height:"#{178/72}rem"
 		.append people
 		.appendTo '.content .pic2,.content .pic1'
-putPeopleAndBar = ()->
+Game.prototype.putPeopleAndBar = ()->
 	jq('.content .people')
 		.each (index)->
 			jq this
@@ -55,10 +55,10 @@ putPeopleAndBar = ()->
 					top:"#{bar.y/72}rem"
 					left:"#{bar.x/72}rem"
 				.appendTo '.content .pic2,.content .pic1'
-bindEvent = ()->
+Game.prototype.bindEvent = ()->
+	_this = @
 	$ '.content .seat'
-		.on 'tap',()->
-			console.log 'seat'
+		.one 'tap',()->
 			$ '.score'
 				.remove()
 			$ '<p></p>'
@@ -67,9 +67,9 @@ bindEvent = ()->
 				.appendTo 'body'
 	$ '.content .seat .people'
 		.one 'tap',(ev)->
-			closeView()
+			_this.closeView()
 			ev.stopPropagation()
-rollYSeatPeople = ()->
+Game.prototype.rollYSeatPeople = ()->
 	num = 5
 	people = 22
 	while num
@@ -84,33 +84,32 @@ rollYSeatPeople = ()->
 		if !seatData[c][r].occupied
 			seatData[c][r].occupied = true
 			people--
-clear = ()->
+Game.prototype.clear = ()->
 	$ '.pic2'
 		.empty()
 	for column,c in seatData
 		for row,r in column
 			delete seatData[c][r].yellow
 			delete seatData[c][r].occupied
-global.paint = ()->
-	clear()
-	rollYSeatPeople()
+Game.prototype.paint = ()->
+	@clear()
+	@rollYSeatPeople()
 	for column,c in seatData
 		for row,r in column
-			putSeats c,r
-	putPeopleAndBar()
-	bindEvent()
+			@putSeats c,r
+	@putPeopleAndBar()
+	@bindEvent()
 
-paint()
 jq '.content>div'
 	.height "#{pHeight}rem"
 
-global.mStart = ()->
+Game.prototype.mStart = ()->
 	C.animate 
 		bottom: "#{-pHeight*1/4}rem",
 	,400,'easeInCubic',()->
-		mGoing()
+		@mGoing()
 	return
-mGoing = ()->
+Game.prototype.mGoing = ()->
 	C.animate
 		bottom:"#{-pHeight-wHeight/(deviceWidth/10)}rem",
 		{
@@ -120,7 +119,7 @@ mGoing = ()->
 			duration:5000
 			easing:'linear'
 			complete:()->
-				mGoing()
+				@mGoing()
 				return	
 		}
 	return

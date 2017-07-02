@@ -1,5 +1,6 @@
 global = window
-global.closeView = ()->
+Game.prototype.closeView = ()->
+	_this = @
 	homepage = $ '.end-view .homepage-btn'
 	replay = $ '.end-view .replay-btn'
 	share = $ '.end-view .share-btn'
@@ -10,23 +11,28 @@ global.closeView = ()->
 	$ '.backdrop'
 		.show()
 	replay
-		.on 'tap',()->
+		.one 'tap',()->
 			$ '.backdrop'
 				.hide(200)
 			$ '.end-view'
 				.hide()
 			$ '.end-view'
 				.removeClass 'zoomOut zoomIn animated'
-			paint()
-			game.countDown()
+			_this.paint()
+			_this.countDown()
 	homepage
-		.on 'tap',()->
+		.one 'tap',()->
 			$ '.backdrop'
 				.hide(200)
 			$ '.end-view'
 				.hide()
 			$ '.end-view'
 				.removeClass 'zoomOut zoomIn animated'
-			paint()
-			homePage()
+			_this.paint()
+			_this.homePage()
 	return
+
+window.game = new Game()
+game.init()
+game.homePage()
+game.paint()

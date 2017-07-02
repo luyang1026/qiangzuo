@@ -11,7 +11,7 @@ jq.fn.animationCss=(animationName,fn)->
 				fn&&fn.call jq this
 				return
 
-class Game
+global.Game = class Game
 	constructor:()->
 		@pHeight = 4540/72# picture height
 		@wHeight = jq(window).height()# screen height
@@ -36,9 +36,9 @@ Game.prototype.homePage = ()->
 
 Game.prototype.homePageBindEvent = ()->
 	_this = @
-	@btnStart.on 'tap',()->
+	@btnStart.one 'tap',()->
 		_this.beginning.animationCss 'bounceOutUp',()->
-				jq(this).hide _this.countDown()#start count-down
+			jq(this).hide _this.countDown()#start count-down
 Game.prototype.countDown = ()->
 	_this = @
 	@countDownNumbers.hide()
@@ -46,7 +46,7 @@ Game.prototype.countDown = ()->
 	@backdrop.show()
 	@number--
 	@timer = setTimeout ()->
-		_this.countDown.call(_this)
+		_this.countDown()
 	,1000
 	if @number<0
 		@number = 3
@@ -58,7 +58,3 @@ Game.prototype.countDown = ()->
 		.eq @number
 		.show()
 	return
-
-global.game = new Game()
-game.init()
-game.homePage()
