@@ -22,6 +22,8 @@ global.Game = class Game
 		@countDownNumbers = jq '.start-view .count-down .number'
 		@number = 3
 		@timer = null
+		@score = 0
+		@tap = jq '#m_btn'
 	init:()->
 		@getDomReady()
 	getDomReady:()->
@@ -37,10 +39,12 @@ Game.prototype.homePage = ()->
 Game.prototype.homePageBindEvent = ()->
 	_this = @
 	@btnStart.one 'tap',()->
+		_this.tap.get(0).play()
 		_this.beginning.animationCss 'bounceOutUp',()->
 			jq(this).hide _this.countDown()#start count-down
 Game.prototype.countDown = ()->
 	_this = @
+	m_cd = $ '#m_countdown'
 	@countDownNumbers.hide()
 	@startView.show()
 	@backdrop.show()
@@ -57,4 +61,5 @@ Game.prototype.countDown = ()->
 	@countDownNumbers
 		.eq @number
 		.show()
+	m_cd.get(0).play()
 	return

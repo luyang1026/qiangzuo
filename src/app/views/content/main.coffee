@@ -58,13 +58,17 @@ Game.prototype.putPeopleAndBar = ()->
 Game.prototype.bindEvent = ()->
 	_this = @
 	$ '.content .seat'
-		.one 'tap',()->
-			$ '.score'
-				.remove()
-			$ '<p></p>'
-				.addClass 'score animated zoomIn'
-				.text ++score
-				.appendTo 'body'
+		.one 'tap',(ev)->
+			if !$(this).hasClass('yellow')
+				$ '.score'
+					.remove()
+				$ '<p></p>'
+					.addClass 'score animated zoomIn'
+					.text ++_this.score
+					.appendTo 'body'
+			else
+				_this.closeView()
+				ev.stopPropagation()
 	$ '.content .seat .people'
 		.one 'tap',(ev)->
 			_this.closeView()
