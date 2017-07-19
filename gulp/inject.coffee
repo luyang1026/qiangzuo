@@ -6,8 +6,8 @@ $ = require './plugins'
 
 $.gulp.task 'inject',()->
 	bowerScript = $.gulp.src $.mainBowerFiles(),{read:false}
-	appScript = $.gulp.src ['src/**/*.js','!src/dev/**/*.js','!src/app/views/start/start.js'],{read:false}
-	startScript = $.gulp.src ['src/app/views/start/start.js'],{read:false}
+	appScript = $.gulp.src ['src/**/*.js','!src/dev/**/*.js','!src/app/views/start/start.js','!src/app/views/content/data.js'],{read:false}
+	startScript = $.gulp.src ['src/app/views/content/data.js','src/app/views/start/start.js'],{read:false}
 	appStyle = $.gulp.src ['src/**/*.css','!src/dev/**/*.css'],{read:false}
 	appHtml = $.gulp.src ['src/app/**/*.html','!src/dev/**/*.html']
 	$.gulp.src 'src/index.html'

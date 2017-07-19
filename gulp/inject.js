@@ -9,10 +9,10 @@
     bowerScript = $.gulp.src($.mainBowerFiles(), {
       read: false
     });
-    appScript = $.gulp.src(['src/**/*.js', '!src/dev/**/*.js', '!src/app/views/start/start.js'], {
+    appScript = $.gulp.src(['src/**/*.js', '!src/dev/**/*.js', '!src/app/views/start/start.js', '!src/app/views/content/data.js'], {
       read: false
     });
-    startScript = $.gulp.src(['src/app/views/start/start.js'], {
+    startScript = $.gulp.src(['src/app/views/content/data.js', 'src/app/views/start/start.js'], {
       read: false
     });
     appStyle = $.gulp.src(['src/**/*.css', '!src/dev/**/*.css'], {
