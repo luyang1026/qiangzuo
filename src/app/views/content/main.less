@@ -38,6 +38,7 @@ body{
 		background-size: 100% 100%;
 		background-repeat: no-repeat;
 		background-image: url(app/img/bar.png);
+		z-index: 5;
 		&.left.top{
 			transform:rotate3d(0,1,0,180deg);
 		}
@@ -54,6 +55,14 @@ body{
 		position: absolute;
 		background-size: 100% 100%;
 		background-repeat: no-repeat;
+		&.occupied{
+			.people{
+				width:3.11rem;
+				height:2.01rem;
+				top:0.22rem;
+				right:0.15rem;
+			}
+		}
 		&.left{
 			transform: rotate(180deg);
 		}

@@ -56,6 +56,7 @@ global.Game = class Game
 	init:()->
 		@getDomReady()
 		@arrangeBars_Seats()
+		@putDomSeats_Bars()
 	getDomReady:()->
 		jq '.content'# set content's height 
 			.height "#{@pHeight/72*2}rem"
@@ -72,8 +73,45 @@ global.Game = class Game
 		for column,c in copySeats
 			for row,r in column
 				copySeats[c][r].y += @pHeight
-		@seats = seatData.concat copySeats 
-
+		@seats = seatData.concat copySeats #座位的数据结构为：1,2项是第一张图的seats(开始在页面上面)，3,4项是第二张图的seats(开始在屏幕内)
+	putDomSeats_Bars:()->
+		for column,c in @bars
+			for row,r in column
+				bar = @bars[c][r]
+				jq '<i></i>'
+					.addClass ()->
+						addedClass = 'bar'
+						if !(c%2) then addedClass+= ' left' else addedClass+=' right'
+						if !(r%2) then addedClass+= ' top' else addedClass+=' bottom'
+						addedClass
+					.css
+						width:"#{214/72}rem"
+						height:"#{43/72}rem"
+						top:"#{bar.y/72}rem"
+						left:"#{bar.x/72}rem"
+					.appendTo '.content'
+		for column,c in @seats
+			for row,r in column
+				seat = row
+				people = jq '<span></span>'
+					.addClass 'people'
+				jq '<div></div>'
+					.on 'touchmove',(ev)->
+						ev.stopPropagation()
+					.addClass ()->
+						addedClass = 'seat'
+						if c%2 then addedClass+=' right' else addedClass+=' left'
+						addedClass
+					.css
+						left:"#{seat.x/72}rem"
+						top:"#{seat.y/72}rem"
+						width:"#{201/72}rem"
+						height:"#{178/72}rem"
+					.attr
+						c:c,
+						r:r
+					.append people
+					.appendTo '.content'
 Game.prototype.homePage = ()->
 	@startView.show()
 	@beginning.show()
