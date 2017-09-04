@@ -3,9 +3,6 @@ document.documentElement.style.fontSize = "#{deviceWidth/10}px"
 
 global = window
 C = jq('.content')
-pHeight = 4540/72# picture height
-wHeight = jq(window).height()# screen height
-changePoint = "#{-pHeight-wHeight/(deviceWidth/10)}rem";
 _slice = [].slice
 peopleCount = 11
 Game.prototype.renderSeats_People = ()->#指定哪几项,0,1即只填加第一幅的黄座和小人
@@ -78,11 +75,6 @@ Game.prototype.rollYSeatPeople = ()->#从36个数据中决定5个黄座和22个�
 		if !@seats[c][r].occupied
 			@seats[c][r].occupied = true
 			@people--
-	# copySeats = clone seats
-	# for column,c in copySeats
-	# 	for row,r in column
-	# 		copySeats[c][r].y += @pHeight
-	# @seats = seatData.concat copySeats #复制座位
 Game.prototype.paint = ()->
 	@render(2,3)
 	@render(0,1)
@@ -126,20 +118,19 @@ Game.prototype.mStart = ()->
 Game.prototype.mGoing = ()->
 	_this = @
 	C.animate
-		bottom:"#{-(@pHeight/72)}rem",
+		bottom:"#{(-@pHeight/72*2)+(@wHeight/@rem)}rem",
 		{
 			step:(now,fx)->
 				if now*72<_this.cur*_this.step
 					# _this.check now*72
 					_this.cur++
-				if _this.cur == 11
-					console.log 2,3
-					# _this.render(0,1)
-				if _this.cur == 33
-					console.log 2,3
-					# _this.render(0,1)
+				if(@pHeight/72-now>200) #
+					_this.render(0,1)
 				if now <= fx.end
+					console.log(now,fx.end)
+					# debugger;
 					# _this.paint()
+					_this.render(2,3)
 					fx.now = 0
 			duration:_this.speed
 			easing:'linear'
@@ -148,6 +139,9 @@ Game.prototype.mGoing = ()->
 				_this.speed -= 500
 				_this.cur = 1
 				_this.mGoing()
+				if(_this.speed<2000){
+					_this.mStop()
+				}
 				return	
 		}
 	return

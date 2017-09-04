@@ -46,13 +46,18 @@ global.Game = class Game
 		@hScore = +localStorage.getItem('hScore') or 0
 		@cur = 1
 		@step = -100
-		@speed = 8000
+		@speed = 9000
 		@m_bgm = $('#m_bgm').get(0)
 		@m_btn = $('#m_btn').get(0)
 		@m_correct = $('#m_correct').get(0)
 		@m_wronge = $('#m_wronge').get(0)
 		@m_countdown = $('#m_countdown').get(0)
 		@m_newrecord = $('#m_newrecord').get(0)
+		# Object.defineProperty(this, 'cur', {
+		# 	get:(){
+		# 		return
+		# 	}
+		# })
 	init:()->
 		@getDomReady()
 		@arrangeBars_Seats()
@@ -166,5 +171,5 @@ testGo = ()->
 	setTimeout ()->
 		game.mStart()
 	,10
-# testGo()
-game.homePage()
+testGo()
+#game.homePage()

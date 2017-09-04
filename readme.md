@@ -5,4 +5,6 @@
 	，查看该数据中的clicked、people、occupied属性，如果发现有clicked为假并且occupied也为假时，则游戏结束
 
 3.关于什么时候重排座位
+     先走第一幅，快到第二幅时，走第二幅，
+     (1)找到
 	
